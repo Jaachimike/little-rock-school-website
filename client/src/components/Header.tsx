@@ -16,7 +16,7 @@ interface IDropdownItem {
 const navItems: INavItem[] = [
   {
     name: "ABOUT",
-    mainhref: "#",
+    mainhref: "/history",
     dropdownItems: [
       {href: "/mission-and-vision", name: "Our Mission and Vision"},
       {href: "/history", name: "Our History"},
