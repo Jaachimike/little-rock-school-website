@@ -2,7 +2,7 @@ import ReactPlayer from "react-player/youtube";
 
 function HeroSection() {
   return (
-    <div className="relative h-screen">
+    <div className="relative h-[600px] md:h-screen -mt-4 sm:mt-0">
       <ReactPlayer
         url="https://www.youtube.com/embed/orJy-Y-UGVg?si=y8U0qZ51xvibYj_F"
         controls={true}
