@@ -1,0 +1,89 @@
+/* Calluna */
+@font-face {
+  font-family: "Calluna";
+  src: url("/fonts/calluna/calluna-regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Calluna Sans */
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Light.otf")
+    format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Light_Italic.otf")
+    format("opentype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Italic.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Semibold.otf")
+    format("opentype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Semibold_Italic.otf")
+    format("opentype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Bold.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Bold_Italic.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Black.otf")
+    format("opentype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Calluna Sans";
+  src: url("/fonts/calluna-sans/fonnts.com-Calluna_Sans_Black_Italic.otf")
+    format("opentype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Add more @font-face rules for other weights/styles of Calluna Sans */
