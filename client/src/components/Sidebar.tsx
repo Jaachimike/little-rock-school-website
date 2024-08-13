@@ -1,5 +1,3 @@
-import React from "react";
-
 function Sidebar() {
   return (
     <div className="fixed left-0 top-0 bottom-0 w-16 bg-littleRockWhite-500 flex flex-col items-center justify-between py-4 shadow-lg">

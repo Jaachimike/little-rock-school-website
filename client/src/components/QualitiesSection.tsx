@@ -1,4 +1,3 @@
-import React from "react";
 import HoverCard from "./HoverCard";
 import dummypic from "../assets/jpg/dummypic.jpg";
 

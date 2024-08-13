@@ -1,5 +1,3 @@
-import React from "react";
-
 const EnrollmentForm = () => {
   return (
     <div className="content-container">

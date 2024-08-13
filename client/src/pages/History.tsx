@@ -1,4 +1,3 @@
-import React from "react";
 import heroImage from "../assets/jpg/history.jpg";
 
 const History = () => {
