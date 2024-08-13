@@ -18,7 +18,7 @@ const HoverCard = ({
   const [isHovered, setIsHovered] = useState(false);
   return (
     <div
-      className="relative w-auto h-[585px] rounded-lg overflow-hidden shadow-lg cursor-pointer group"
+      className="relative w-auto h-[585px] text-littleRockWhite-500 rounded-lg overflow-hidden shadow-lg cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

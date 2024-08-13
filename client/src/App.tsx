@@ -5,6 +5,9 @@ import Homepage from "./pages/Homepage";
 import NewPayment from "./pages/NewPayment";
 import PaymentHomepage from "./pages/PaymentHomepage";
 import OutstandingPayment from "./pages/OutstandingPayment";
+import MissionAndVision from "./pages/MissionAndVision";
+import History from "./pages/History";
+import ManagementTeam from "./pages/ManagementTeam";
 
 function App() {
   return (
@@ -16,6 +19,33 @@ function App() {
           element={
             <MainLayout>
               <Homepage />
+            </MainLayout>
+          }
+        />
+        <Route
+          index
+          path="/mission-and-vision"
+          element={
+            <MainLayout>
+              <MissionAndVision />
+            </MainLayout>
+          }
+        />
+        <Route
+          index
+          path="/history"
+          element={
+            <MainLayout>
+              <History />
+            </MainLayout>
+          }
+        />
+        <Route
+          index
+          path="/management-team"
+          element={
+            <MainLayout>
+              <ManagementTeam />
             </MainLayout>
           }
         />

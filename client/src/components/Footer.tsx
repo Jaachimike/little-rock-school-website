@@ -58,7 +58,7 @@ const quicklinks = [
 
 function Footer() {
   return (
-    <footer className="flex absolute right-0 left-16 z-10">
+    <footer className="flex absolute right-0 left-16 z-10 text-littleRockWhite-500">
       {/* social links */}
       <div className="bg-littleRockBlue-600 p-9 flex flex-col gap-20 justify-center">
         {socialIcons.map((socialIcon, index) => (

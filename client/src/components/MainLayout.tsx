@@ -9,7 +9,7 @@ interface MainLayoutProps {
 
 function MainLayout({children}: MainLayoutProps) {
   return (
-    <div className="flex text-littleRockWhite-500 ">
+    <div className="flex">
       <Sidebar />
       <div className="flex-1">
         <Header />
