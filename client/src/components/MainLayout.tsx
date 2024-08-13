@@ -9,16 +9,14 @@ interface MainLayoutProps {
 
 function MainLayout({children}: MainLayoutProps) {
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <main className="ml-16 mt-24 ">
-          {/* Adjust margins as needed */}
-          {children}
-        </main>
-        <Footer />
-      </div>
+    <div>
+      {/* <Sidebar /> */}
+      <Header />
+      <main className=" mt-24 ">
+        {/* Adjust margins as needed */}
+        {children}
+      </main>
+      <Footer />
     </div>
   );
 }

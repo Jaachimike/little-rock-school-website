@@ -4,13 +4,13 @@ import heroImage from "../assets/jpg/mission-and-values.jpg";
 const MissionAndVision = () => {
   return (
     <div className="content-container">
+      <h2 className="text-3xl md:text-4xl text-littleRockBlue-500 font-bold mb-8">
+        Mission & Vision
+      </h2>
       <div className="w-full">
         <img src={heroImage} alt="" className="h-96 w-full rounded-xl" />
       </div>
       <div className="pt-20 flex flex-col gap-8">
-        <h2 className="text-3xl md:text-4xl text-littleRockBlue-500 font-bold">
-          Mission & Vision
-        </h2>
         {/* our mission */}
         <div>
           <h3 className="text-xl md:text-2xl text-littleRockBlue-500 font-bold mb-3">

@@ -58,9 +58,9 @@ const quicklinks = [
 
 function Footer() {
   return (
-    <footer className="flex absolute right-0 left-16 z-10 text-littleRockWhite-500">
+    <footer className="flex flex-col md:flex-row absolute right-0 left-0 z-10 text-littleRockWhite-500">
       {/* social links */}
-      <div className="bg-littleRockBlue-600 p-9 flex flex-col gap-20 justify-center">
+      <div className="bg-littleRockBlue-600 p-9 flex flex-row md:flex-col gap-20 justify-center">
         {socialIcons.map((socialIcon, index) => (
           <a key={index} href={socialIcon.logoLink} className="cursor-pointer">
             <img
@@ -72,12 +72,12 @@ function Footer() {
         ))}
       </div>
       {/* footer */}
-      <div className="bg-littleRockBlue-500 flex-1 p-16 ">
+      <div className="bg-littleRockBlue-500 flex-1 p-10 md:p-16 ">
         {/* footer links and address */}
         <div>
-          <img src={littleRockLogo} alt="" className="h-20 w-auto mb-10" />
+          <img src={littleRockLogo} alt="" className="h-28 w-auto mb-10" />
         </div>
-        <div className="flex justify-between pb-10 border-b ">
+        <div className="flex flex-col md:flex-row gap-9 justify-between pb-10 border-b ">
           {/* logo and addresses */}
           <div className="flex flex-col gap-5">
             <h2 className="text-2xl font-calluna underline underline-offset-8">
@@ -124,7 +124,7 @@ function Footer() {
         </div>
 
         {/* sub footer */}
-        <div className="text-center pt-3">
+        <div className="text-center pt-3 text-sm">
           <p>&copy; 2024 LITTLE ROCK INTERNATIONAL SCHOOLS.</p>
         </div>
       </div>

@@ -31,8 +31,8 @@ const hoverCardProps = [
 
 const QualitiesSection = () => {
   return (
-    <div className="content-container bg-littleRockWhite-500">
-      <div className="flex justify-between mx-8">
+    <div className="content-container">
+      <div className="grid grid-col-1 sm:grid-cols-2 xl:grid-cols-3  gap-6 ">
         {hoverCardProps.map((card, index) => (
           <HoverCard
             key={index}
