@@ -113,7 +113,7 @@ function Footer() {
             <span className="text-2xl font-calluna underline underline-offset-8">
               QUICK LINKS
             </span>
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
               {quicklinks.map((link, index) => (
                 <a key={index} href={link.linkHref} className="text-lg">
                   {link.linkName}
