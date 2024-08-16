@@ -19,7 +19,7 @@ const navItems: INavItem[] = [
     mainhref: "/history",
     dropdownItems: [
       {href: "/mission-and-vision", name: "Our Mission and Vision"},
-      {href: "/history", name: "Our History"},
+      // {href: "/history", name: "Our History"},
       {href: "/management-team", name: "Our Management Team"},
     ],
   },

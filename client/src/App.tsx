@@ -31,7 +31,7 @@ function App() {
             </MainLayout>
           }
         />
-        <Route
+        {/* <Route
           index
           path="/history"
           element={
@@ -39,7 +39,7 @@ function App() {
               <History />
             </MainLayout>
           }
-        />
+        /> */}
         <Route
           index
           path="/management-team"
