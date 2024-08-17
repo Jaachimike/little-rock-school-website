@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {motion} from "framer-motion";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 import littleRockLogo from "../assets/svg/littleRockLogoNoBg.svg";
 import backSvg from "../assets/svg/back-svgrepo-com.svg";
 import DynamicDoubleInput from "../components/DynamicDoubleInput";
@@ -43,10 +44,36 @@ const NewPayment = () => {
     setFormData({...formData, [name]: value});
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-    // You can handle the submission logic here, such as sending data to an API
+    console.log("Submitting form data:", formData);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/payments/register",
+        {
+          parentFirstName: formData.firstName,
+          parentLastName: formData.lastName,
+          email: formData.emailAddress,
+          phoneNumber: formData.phoneNumber,
+          childrenNames: formData.childrenNames,
+          childrenClasses: formData.childrenClasses,
+          branchLocation: "lagos", // You might want to add this to your form
+        }
+      );
+
+      console.log("Response data:", response.data);
+
+      // Store the payment details for the next step
+      localStorage.setItem("paymentDetails", JSON.stringify(response.data));
+      navigate("/payment-confirmation");
+    } catch (error: any) {
+      console.error(
+        "Error submitting form:",
+        error.response?.data || error.message
+      );
+      alert("Failed to submit form. Please try again.");
+    }
   };
 
   return (
@@ -88,7 +115,7 @@ const NewPayment = () => {
               value={formData.firstName}
               onChange={handleChange}
               placeholder="Your First Name"
-              className="px-5 py-3 rounded-xl"
+              className="px-5 py-3 rounded-xl text-black"
             />
           </div>
           {/* last name input field */}
@@ -103,7 +130,7 @@ const NewPayment = () => {
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Your Last Name"
-              className="px-5 py-3 rounded-xl"
+              className="px-5 py-3 rounded-xl text-black"
             />
           </div>
           {/* email input field */}
@@ -118,7 +145,7 @@ const NewPayment = () => {
               value={formData.emailAddress}
               onChange={handleChange}
               placeholder="Your Email Address"
-              className="px-5 py-3 rounded-xl"
+              className="px-5 py-3 rounded-xl text-black"
             />
           </div>
           {/* phone number input field */}
@@ -133,7 +160,7 @@ const NewPayment = () => {
               value={formData.phoneNumber}
               onChange={handleChange}
               placeholder="Your Phone Number"
-              className="px-5 py-3 rounded-xl"
+              className="px-5 py-3 rounded-xl text-black"
             />
           </div>
           {/* children data input fields */}

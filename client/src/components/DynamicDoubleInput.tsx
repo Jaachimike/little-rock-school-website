@@ -55,7 +55,7 @@ const DynamicDoubleInput: React.FC<DynamicDoubleInputProps> = ({
             name="firstValue"
             value={field.firstValue}
             onChange={event => handleChange(index, event)}
-            className="border-2 border-[#D9D9D9] px-5 py-3 rounded-xl w-1/2"
+            className="border-2 border-[#D9D9D9] px-5 py-3 rounded-xl w-1/2 text-black"
             placeholder={firstPlaceholder}
           />
           <select
@@ -67,9 +67,9 @@ const DynamicDoubleInput: React.FC<DynamicDoubleInputProps> = ({
             <option value="" disabled>
               Select Class
             </option>
-            <option value="Peridot">Peridot</option>
-            <option value="Jade">Jade</option>
-            <option value="Diamond">Diamond</option>
+            <option value="class1">Class 1</option>
+            <option value="class2">Class 2</option>
+            {/* <option value="Diamond">Diamond</option> */}
           </select>
           <button
             type="button"

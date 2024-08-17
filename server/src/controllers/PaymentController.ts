@@ -1,10 +1,11 @@
 import {Request, Response} from "express";
 import PaymentService from "../services/PaymentService";
+import {PaymentData} from "../types";
 
 class PaymentController {
   static async register(req: Request, res: Response) {
     try {
-      const paymentData = req.body;
+      const paymentData: PaymentData = req.body;
       const totalFees = await PaymentService.calculateTotalFees(
         paymentData.childrenClasses,
         paymentData.branchLocation
