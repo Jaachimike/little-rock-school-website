@@ -1,4 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import axios from "axios";
+import {OutstandingPaymentContext} from "../contexts/OutstandingPaymentContext";
 import {motion} from "framer-motion";
 import littleRockLogo from "../assets/svg/littleRockLogoNoBg.svg";
 import {useNavigate} from "react-router-dom";
@@ -6,6 +8,7 @@ import backSvg from "../assets/svg/back-svgrepo-com.svg";
 
 const NewPayment = () => {
   const navigate = useNavigate();
+  const {setPaymentDetails} = useContext(OutstandingPaymentContext)!;
 
   const backButtonClick = () => {
     navigate(-1);
@@ -28,9 +31,25 @@ const NewPayment = () => {
     setFormData({...formData, [name]: value});
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/payments/payment-details",
+        {
+          email: formData.emailAddress,
+          surname: formData.lastName,
+        }
+      );
+      setPaymentDetails(response.data);
+      // localStorage.setItem("paymentDetails", JSON.stringify(response.data));
+      navigate("/outstanding-payment-confirmation");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("There was an error submitting the form. Please try again.");
+    }
     // Handle form submission logic here, such as sending data to an API
   };
 
@@ -73,7 +92,7 @@ const NewPayment = () => {
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Your Last Name"
-              className="px-5 py-3 rounded-xl"
+              className="px-5 py-3 rounded-xl text-black "
             />
           </div>
           {/* email input field */}
@@ -88,7 +107,7 @@ const NewPayment = () => {
               value={formData.emailAddress}
               onChange={handleChange}
               placeholder="Your Email Address"
-              className="px-5 py-3 rounded-xl"
+              className="px-5 py-3 rounded-xl text-black"
             />
           </div>
           {/* submit button */}

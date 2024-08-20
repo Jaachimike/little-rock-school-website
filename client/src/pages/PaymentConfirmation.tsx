@@ -11,6 +11,9 @@ const PaymentConfirmation = () => {
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [payCustomPrice, setPayCustomPrice] = useState(false);
+  const [selectedPercentage, setSelectedPercentage] = useState(100); // Default to 100%
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +45,10 @@ const PaymentConfirmation = () => {
         "http://localhost:3000/api/payments/make-payment",
         {
           email: paymentDetails.payment.email,
-          amountPaid: paymentDetails.payment.totalSchoolFees,
+          amountPaid: !payCustomPrice
+            ? paymentDetails.payment.totalSchoolFees
+            : (paymentDetails.payment.totalSchoolFees * selectedPercentage) /
+              100,
         }
       );
       console.log("Payment recorded:", apiResponse.data);
@@ -57,11 +63,37 @@ const PaymentConfirmation = () => {
 
   const componentProps = {
     email: paymentDetails.payment.email,
-    amount: paymentDetails.payment.totalSchoolFees * 100,
+    amount: !payCustomPrice
+      ? paymentDetails.payment.totalSchoolFees * 100 // Full amount in kobo
+      : ((paymentDetails.payment.totalSchoolFees * selectedPercentage) / 100) *
+        100, // Percentage amount in kobo
+    metadata: {
+      custom_fields: [
+        {
+          display_name: "Full Name",
+          variable_name: "name",
+          value: `${paymentDetails.payment.parentFirstName} ${paymentDetails.payment.parentLastName}`,
+        },
+        {
+          display_name: "Phone Number",
+          variable_name: "phone",
+          value: paymentDetails.payment.phoneNumber,
+        },
+        {
+          display_name: "Branch Location",
+          variable_name: "branch",
+          value: paymentDetails.payment.branchLocation,
+        },
+      ],
+    },
     publicKey,
     text: "Pay School Fees",
     onSuccess: handleSuccess,
     onClose: () => alert("You are about to cancel your payment"),
+  };
+
+  const handlePercentageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedPercentage(Number(e.target.value));
   };
 
   return (
@@ -91,16 +123,44 @@ const PaymentConfirmation = () => {
         </div>
         <div className="text-littleRockWhite-500">
           <h1>Amount to be paid:</h1>
-          <p className=" text-littleRockWhite-500 text-xl font-semibold mb-5">
+          <p className="text-littleRockWhite-500 text-xl font-semibold mb-5">
             Total School Fees: {paymentDetails.payment.totalSchoolFees}
           </p>
+          <div className="mb-5">
+            <input
+              type="checkbox"
+              id="payCustomPrice"
+              checked={payCustomPrice}
+              onChange={e => setPayCustomPrice(e.target.checked)}
+              className="mr-2"
+            />
+            <label htmlFor="payCustomPrice">Pay custom price</label>
+          </div>
+          {payCustomPrice && (
+            <div className="mb-5">
+              <select
+                value={selectedPercentage}
+                onChange={handlePercentageChange}
+                className="bg-white text-black rounded p-2"
+              >
+                <option value={25}>25%</option>
+                <option value={50}>50%</option>
+                <option value={75}>75%</option>
+                <option value={100}>100%</option>
+              </select>
+            </div>
+          )}
+          <p className="text-littleRockWhite-500 text-xl font-semibold mb-5">
+            Amount to pay:{" "}
+            {!payCustomPrice
+              ? paymentDetails.payment.totalSchoolFees
+              : (paymentDetails.payment.totalSchoolFees * selectedPercentage) /
+                100}
+          </p>
           <PaystackButton
-            className="paystack-button bg-black hover:bg-littleRockWhite-500 text-white hover:text-black px-4 py-2 rounded-lg "
+            className="paystack-button bg-black hover:bg-littleRockWhite-500 text-white hover:text-black px-4 py-2 rounded-lg"
             {...componentProps}
           />
-          {/* <button onClick={handlePayment}>Pay Now</button> */}
-
-          {/* Modal Component */}
           <Modal
             isOpen={isModalOpen}
             onClose={() => {
