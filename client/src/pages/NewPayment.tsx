@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {motion} from "framer-motion";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axios";
 import littleRockLogo from "../assets/svg/littleRockLogoNoBg.svg";
 import backSvg from "../assets/svg/back-svgrepo-com.svg";
 import DynamicDoubleInput from "../components/DynamicDoubleInput";
@@ -49,18 +49,15 @@ const NewPayment = () => {
     console.log("Submitting form data:", formData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/payments/register",
-        {
-          parentFirstName: formData.firstName,
-          parentLastName: formData.lastName,
-          email: formData.emailAddress,
-          phoneNumber: formData.phoneNumber,
-          childrenNames: formData.childrenNames,
-          childrenClasses: formData.childrenClasses,
-          branchLocation: "lagos", // You might want to add this to your form
-        }
-      );
+      const response = await axiosInstance.post("/payments/register", {
+        parentFirstName: formData.firstName,
+        parentLastName: formData.lastName,
+        email: formData.emailAddress,
+        phoneNumber: formData.phoneNumber,
+        childrenNames: formData.childrenNames,
+        childrenClasses: formData.childrenClasses,
+        branchLocation: "lagos", // You might want to add this to your form
+      });
 
       console.log("Response data:", response.data);
 

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axios";
 
 const PaymentSuccess = () => {
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
@@ -12,8 +12,8 @@ const PaymentSuccess = () => {
       if (storedDetails) {
         const details = JSON.parse(storedDetails);
         try {
-          const response = await axios.post(
-            "http://localhost:3000/api/payments/get-payment-details",
+          const response = await axiosInstance.post(
+            "/payments/get-payment-details",
             {
               email: details.payment.email,
               surname: details.payment.parentLastName,

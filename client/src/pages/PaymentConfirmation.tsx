@@ -4,7 +4,7 @@ import backSvg from "../assets/svg/back-svgrepo-com.svg";
 import {motion} from "framer-motion";
 import littleRockLogo from "../assets/svg/littleRockLogoNoBg.svg";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axios";
 import Modal from "../components/Modal";
 
 const PaymentConfirmation = () => {
@@ -41,16 +41,12 @@ const PaymentConfirmation = () => {
   const handleSuccess = async () => {
     // Make API call to record the payment
     try {
-      const apiResponse = await axios.post(
-        "http://localhost:3000/api/payments/make-payment",
-        {
-          email: paymentDetails.payment.email,
-          amountPaid: !payCustomPrice
-            ? paymentDetails.payment.totalSchoolFees
-            : (paymentDetails.payment.totalSchoolFees * selectedPercentage) /
-              100,
-        }
-      );
+      const apiResponse = await axiosInstance.post("/payments/make-payment", {
+        email: paymentDetails.payment.email,
+        amountPaid: !payCustomPrice
+          ? paymentDetails.payment.totalSchoolFees
+          : (paymentDetails.payment.totalSchoolFees * selectedPercentage) / 100,
+      });
       console.log("Payment recorded:", apiResponse.data);
       setIsModalOpen(true); // Open the modal on success
     } catch (error) {

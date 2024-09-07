@@ -5,6 +5,7 @@ import {motion} from "framer-motion";
 import littleRockLogo from "../assets/svg/littleRockLogoNoBg.svg";
 import {useNavigate} from "react-router-dom";
 import backSvg from "../assets/svg/back-svgrepo-com.svg";
+import axiosInstance from "../utils/axios";
 
 const NewPayment = () => {
   const navigate = useNavigate();
@@ -33,16 +34,13 @@ const NewPayment = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/payments/payment-details",
-        {
-          email: formData.emailAddress,
-          surname: formData.lastName,
-        }
-      );
+      const response = await axiosInstance.post("/payments/payment-details", {
+        email: formData.emailAddress,
+        surname: formData.lastName,
+      });
       setPaymentDetails(response.data);
       // localStorage.setItem("paymentDetails", JSON.stringify(response.data));
       navigate("/outstanding-payment-confirmation");

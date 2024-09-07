@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {PaystackButton} from "react-paystack";
 import {useNavigate} from "react-router-dom";
 import {OutstandingPaymentContext} from "../contexts/OutstandingPaymentContext";
-import axios from "axios";
+import axiosInstance from "../utils/axios";
 import Modal from "../components/Modal";
 import littleRockLogo from "../assets/svg/littleRockLogoNoBg.svg";
 import backSvg from "../assets/svg/back-svgrepo-com.svg";
@@ -24,15 +24,12 @@ const OutstandingPaymentConfirmation = () => {
 
   const handleSuccess = async () => {
     try {
-      const apiResponse = await axios.post(
-        "http://localhost:3000/api/payments/make-payment",
-        {
-          email: paymentDetails.email,
-          amountPaid: !payCustomPrice
-            ? paymentDetails.amountOwed
-            : (paymentDetails.amountOwed * selectedPercentage) / 100,
-        }
-      );
+      const apiResponse = await axiosInstance.post("/payments/make-payment", {
+        email: paymentDetails.email,
+        amountPaid: !payCustomPrice
+          ? paymentDetails.amountOwed
+          : (paymentDetails.amountOwed * selectedPercentage) / 100,
+      });
       console.log("Payment recorded:", apiResponse.data);
       setIsModalOpen(true);
     } catch (error) {
@@ -98,7 +95,7 @@ const OutstandingPaymentConfirmation = () => {
         <div className="text-littleRockWhite-500">
           <h1>Amount to be paid:</h1>
           <p className="text-littleRockWhite-500 text-xl font-semibold mb-5">
-            Total School Fees: {paymentDetails.amountOwed}
+            Outstanding School Fees: {paymentDetails.amountOwed}
           </p>
           {paymentDetails.amountOwed > 0 ? (
             <>
