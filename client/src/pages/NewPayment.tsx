@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {motion} from "framer-motion";
 import {useNavigate} from "react-router-dom";
 import axiosInstance from "../utils/axios";
@@ -9,10 +9,6 @@ import DynamicDoubleInput from "../components/DynamicDoubleInput";
 const NewPayment = () => {
   const navigate = useNavigate();
 
-  const backButtonClick = () => {
-    navigate(-1);
-  };
-
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -21,13 +17,27 @@ const NewPayment = () => {
     childrenNames: [] as string[],
     childrenClasses: [] as string[],
     numberOfChildren: 0,
+    branchLocation: "",
   });
 
+  useEffect(() => {
+    const selectedBranch = localStorage.getItem("selectedBranch");
+    if (!selectedBranch) {
+      navigate("/branch-selection");
+    } else {
+      setFormData(prevData => ({...prevData, branchLocation: selectedBranch}));
+    }
+  }, [navigate]);
+
+  const backButtonClick = () => {
+    navigate("/branch-selection");
+  };
+
   const bounceTransition = {
-    repeat: Infinity, // Keep the animation repeating
-    repeatType: "reverse" as const, // Makes it bounce back and forth
-    duration: 0.6, // Adjust duration to control speed
-    ease: "easeInOut", // Smooth easing for the bounce effect
+    repeat: Infinity,
+    repeatType: "reverse" as const,
+    duration: 0.6,
+    ease: "easeInOut",
   };
 
   const handleChildrenDataChange = (names: string[], classes: string[]) => {
@@ -35,7 +45,7 @@ const NewPayment = () => {
       ...formData,
       childrenNames: names,
       childrenClasses: classes,
-      numberOfChildren: names.length, // Update the number of children
+      numberOfChildren: names.length,
     });
   };
 
@@ -56,12 +66,11 @@ const NewPayment = () => {
         phoneNumber: formData.phoneNumber,
         childrenNames: formData.childrenNames,
         childrenClasses: formData.childrenClasses,
-        branchLocation: "lagos", // You might want to add this to your form
+        branchLocation: formData.branchLocation,
       });
 
       console.log("Response data:", response.data);
 
-      // Store the payment details for the next step
       localStorage.setItem("paymentDetails", JSON.stringify(response.data));
       navigate("/payment-confirmation");
     } catch (error: any) {
@@ -83,7 +92,7 @@ const NewPayment = () => {
           <span>
             <img src={backSvg} alt="previous button" className="h-3" />
           </span>
-          Back
+          Back to Branch Selection
         </button>
         {/* school icon  */}
         <div className="flex flex-col justify-center items-center gap-4 mb-10">
@@ -91,7 +100,7 @@ const NewPayment = () => {
             src={littleRockLogo}
             alt="Little Rock Logo"
             className="h-20 w-20"
-            animate={{y: ["0%", "-20%"]}} // Moves up and down by 30% of its own height
+            animate={{y: ["0%", "-20%"]}}
             transition={bounceTransition}
           />
           <h1 className=" text-littleRockWhite-500 text-xl font-semibold">

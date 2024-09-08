@@ -17,6 +17,7 @@ import Signup from "./pages/Signup";
 import AdminDashboard from "./pages/AdminDashboard";
 import {AuthProvider, useAuth} from "./contexts/AuthContext";
 import EditParent from "./pages/EditParent";
+import BranchSelection from "./pages/BranchSelection";
 
 const ProtectedRoute: React.FC<{children: JSX.Element}> = ({children}) => {
   const {token} = useAuth();
@@ -81,6 +82,7 @@ function App() {
               path="/outstanding-payment-confirmation"
               element={<OutstandingPaymentConfirmation />}
             />
+            <Route path="/branch-selection" element={<BranchSelection />} />
 
             {/* admin dashboard routes */}
             <Route path="/login" element={<Login />} />
