@@ -35,6 +35,7 @@ const AdminDashboard = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [filteredPayments, setFilteredPayments] = useState<Payment[]>([]);
   const [branchFilter, setBranchFilter] = useState<string>("all");
+  const [paymentStatusFilter, setPaymentStatusFilter] = useState<string>("all");
   const [totals, setTotals] = useState<Totals>({
     totalOwed: 0,
     totalPaid: 0,
@@ -89,14 +90,27 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (branchFilter === "all") {
-      setFilteredPayments(payments);
-    } else {
-      setFilteredPayments(
-        payments.filter(payment => payment.branchLocation === branchFilter)
+    let filtered = payments;
+
+    if (branchFilter !== "all") {
+      filtered = filtered.filter(
+        payment => payment.branchLocation === branchFilter
       );
     }
-  }, [branchFilter, payments]);
+
+    if (paymentStatusFilter !== "all") {
+      filtered = filtered.filter(payment => {
+        if (paymentStatusFilter === "owing") {
+          return payment.amountOwed > 0;
+        } else if (paymentStatusFilter === "fully_paid") {
+          return payment.amountOwed === 0;
+        }
+        return true;
+      });
+    }
+
+    setFilteredPayments(filtered);
+  }, [branchFilter, paymentStatusFilter, payments]);
 
   const handleDelete = async (id: number) => {
     try {
@@ -105,12 +119,7 @@ const AdminDashboard = () => {
       });
       const updatedPayments = payments.filter(payment => payment.id !== id);
       setPayments(updatedPayments);
-      setFilteredPayments(
-        updatedPayments.filter(
-          payment =>
-            branchFilter === "all" || payment.branchLocation === branchFilter
-        )
-      );
+      setFilteredPayments(updatedPayments);
       calculateTotals(updatedPayments);
     } catch (error) {
       console.error("Error deleting payment", error);
@@ -129,10 +138,10 @@ const AdminDashboard = () => {
   };
 
   const bounceTransition = {
-    repeat: Infinity, // Keep the animation repeating
-    repeatType: "reverse" as const, // Makes it bounce back and forth
-    duration: 0.6, // Adjust duration to control speed
-    ease: "easeInOut", // Smooth easing for the bounce effect
+    repeat: Infinity,
+    repeatType: "reverse" as const,
+    duration: 0.6,
+    ease: "easeInOut",
   };
 
   const handleDeleteClick = (id: number) => {
@@ -142,27 +151,7 @@ const AdminDashboard = () => {
 
   const handleDeleteConfirm = async () => {
     if (paymentToDelete) {
-      try {
-        await axiosInstance.delete(
-          `/payments/delete-payment/${paymentToDelete}`,
-          {
-            headers: {Authorization: `Bearer ${token}`},
-          }
-        );
-        const updatedPayments = payments.filter(
-          payment => payment.id !== paymentToDelete
-        );
-        setPayments(updatedPayments);
-        setFilteredPayments(
-          updatedPayments.filter(
-            payment =>
-              branchFilter === "all" || payment.branchLocation === branchFilter
-          )
-        );
-        calculateTotals(updatedPayments);
-      } catch (error) {
-        console.error("Error deleting payment", error);
-      }
+      await handleDelete(paymentToDelete);
     }
     setIsDeleteModalOpen(false);
     setPaymentToDelete(null);
@@ -171,13 +160,12 @@ const AdminDashboard = () => {
   return (
     <div className="p-4">
       <div className="flex justify-between p-4">
-        {/* logo and header */}
         <div className="flex justify-center items-center gap-4 mb-10">
           <motion.img
             src={littleRockLogo}
             alt="Little Rock Logo"
             className="h-20 w-20"
-            animate={{y: ["0%", "-20%"]}} // Moves up and down by 20% of its own height
+            animate={{y: ["0%", "-20%"]}}
             transition={bounceTransition}
           />
         </div>
@@ -186,7 +174,6 @@ const AdminDashboard = () => {
           Little Rock International Schools Admin Dashboard
         </h1>
 
-        {/* logout button */}
         <div>
           <button
             onClick={logout}
@@ -197,25 +184,42 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* filter dropwdown */}
-      <div className="mb-4">
-        <label htmlFor="branchFilter" className="mr-2">
-          Filter by Branch:
-        </label>
-        <select
-          id="branchFilter"
-          value={branchFilter}
-          onChange={e => setBranchFilter(e.target.value)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="all">All Branches</option>
-          <option value="lagos">Lagos</option>
-          <option value="owerri">Owerri</option>
-          <option value="abuja">Abuja</option>
-        </select>
+      <div className="mb-4 flex gap-4">
+        <div>
+          <label htmlFor="branchFilter" className="mr-2">
+            Filter by Branch:
+          </label>
+          <select
+            id="branchFilter"
+            value={branchFilter}
+            onChange={e => setBranchFilter(e.target.value)}
+            className="border rounded px-2 py-1"
+          >
+            <option value="all">All Branches</option>
+            <option value="lagos">Lagos</option>
+            <option value="owerri">Owerri</option>
+            <option value="abuja">Abuja</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="paymentStatusFilter" className="mr-2">
+            Filter by Payment Status:
+          </label>
+          <select
+            id="paymentStatusFilter"
+            value={paymentStatusFilter}
+            onChange={e => setPaymentStatusFilter(e.target.value)}
+            className="border rounded px-2 py-1"
+          >
+            <option value="all">All Statuses</option>
+            <option value="owing">Owing</option>
+            <option value="fully_paid">Fully Paid</option>
+          </select>
+        </div>
       </div>
 
-      {/* totals display */}
+      {/* Totals display */}
       <div className="mb-4 p-4 bg-gray-100 rounded">
         <h2 className="text-xl font-semibold mb-2">Overall Totals:</h2>
         <p>Total Amount Owed: {formatCurrency(totals.totalOwed)}</p>
@@ -239,7 +243,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* payments table  */}
+      {/* Payments table */}
       <div className="overflow-auto">
         <table className="w-full border overflow-auto">
           <thead>

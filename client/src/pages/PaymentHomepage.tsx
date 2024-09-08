@@ -29,7 +29,7 @@ const PaymentHomepage = () => {
         {/* buttons */}
         <div className="flex flex-col gap-4 w-8/12 mx-auto">
           <Link
-            to="/new-payment"
+            to="/branch-selection"
             className="bg-littleRockWhite-500 hover:bg-littleRockBlue-500 hover:text-littleRockWhite-500 rounded-lg px-3 py-2 text-center font-semibold"
           >
             Make New Payment
